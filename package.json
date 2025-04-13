@@ -7,13 +7,19 @@
   "scripts": {
     "dev": "nodemon src/index.js "
   },
-  "keywords": [ 
+  "keywords": [
     "javascript",
     "backend"
   ],
   "author": "devansh sharma",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.13.2"
   }
 }
