@@ -29,11 +29,6 @@ const registerUser = asyncHandler( async (req, res) =>{
   // get user details from frontend 
 
    const{username, fullName, email, password} = req.body
-  // console.log("email: ",email);
-  // console.log("username ",username);
-  // console.log("fullName ",fullName);
-  // console.log("password ",password);
-
 
   // validation check  - not empty
   if (
@@ -51,8 +46,6 @@ const registerUser = asyncHandler( async (req, res) =>{
   if (existedUser) {
     throw new ApiError(409, "user with email or username already exits")
 }
-//console.log("existedUser:", existedUser);
-
 
   // check for images, check for avatar
   const avatarLocalPath = req.files?.avatar[0]?.path;
@@ -64,11 +57,6 @@ const registerUser = asyncHandler( async (req, res) =>{
  if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
      coverImageLocalPath = req.files.coverImage[0].path
  }
- 
-
- //console.log("avatar Localpath exists:", Boolean(avatarLocalPath));
- //console.log("avatar file full object:", req.files.avatar[0]);
- 
  
 if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar file is required")
@@ -121,7 +109,7 @@ const loginUser = asyncHandler( async (req,res) =>{
 
 
 // req.body --> data
-const {email, username, password} = req.body;
+const {email, username, password} = req.body
 
 // username or email
 if (!(email || username)) {
@@ -282,7 +270,7 @@ const getCurrentUser = asyncHandler( async(req, res) =>{
 })
 
 const updateAccountDetails = asyncHandler( async(req, res) =>{ 
-  const{fullName, email} = req.body
+  const {fullName, email} = req.body
 
   if (!fullName || !email) {
     throw new ApiError(400, " All fields are required")
@@ -409,7 +397,9 @@ const getUserChannelProfile = asyncHandler( async(req, res) =>{
                                   },
                 isSubscribed:{
                   $cond:{
-                    if:{$in:[req.user?._id, "subscribers.subscriber"]},
+                    if:{
+                      $in:[req.user?._id, "$subscribers.subscriber"]
+                    },
                     then:true,
                     else:false
 
@@ -454,7 +444,7 @@ const user = await User.aggregate([
        {
         $match:{
              _id: new mongoose.Types.ObjectId(req.user._id)
-                }
+                } 
        },
        {
         $lookup:{     // videos to user looking up
